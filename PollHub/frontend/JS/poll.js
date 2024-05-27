@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('showCreateGroupForm').classList.remove('disabled-link'); // Enable the create group link
     });
 
+    /*
     document.getElementById('createPollForm').addEventListener('submit', async function (event) {
         event.preventDefault();
 
@@ -68,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error during fetch:", error);
             displayMessage('Une erreur s\'est produite. Veuillez réessayer.', 'error');
         }
-    });
+    });*/
 
     async function addQuestion() {
         var questionContainer = document.getElementById('questions');
