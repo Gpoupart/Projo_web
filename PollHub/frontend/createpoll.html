@@ -5,53 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PollHub - Créer un Sondage</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
-        function addQuestion() {
-            var questionContainer = document.getElementById('questions');
-            var questionType = document.getElementById('question-type').value;
-            var questionText = document.getElementById('question-text').value;
+    <script type="text/javascript" src="./JS/createpoll.js" ></script>
+    <script type="text/javascript">
 
-            var questionDiv = document.createElement('div');
-            questionDiv.className = 'question';
-
-            var label = document.createElement('label');
-            label.textContent = questionText;
-            questionDiv.appendChild(label);
-
-            if (questionType === 'multiple-choice') {
-                var options = document.getElementById('options').value.split('\n');
-                options.forEach(function(option) {
-                    var optionDiv = document.createElement('div');
-                    var radio = document.createElement('input');
-                    radio.type = 'radio';
-                    radio.name = questionText;
-                    radio.value = option;
-                    optionDiv.appendChild(radio);
-                    var optionLabel = document.createElement('label');
-                    optionLabel.textContent = option;
-                    optionDiv.appendChild(optionLabel);
-                    questionDiv.appendChild(optionDiv);
-
-                    const data = {
-                        // adapte le renvoie des reponses en fonction du multiple choice
-                        question: questionText,
-                        options: options
-                        
-
-                    };
-                });
-            } else {
-                var textarea = document.createElement('textarea');
-                questionDiv.appendChild(textarea);
-            }
-
-            questionContainer.appendChild(questionDiv);
-
-            document.getElementById('question-text').value = '';
-            document.getElementById('options').value = '';
-
-            
-        }
 
         function savePoll(event) {
             event.preventDefault();
@@ -92,6 +48,7 @@
                 <button type="button" onclick="addQuestion()">Ajouter la Question</button>
                 <div id="questions"></div>
                 <button type="submit" class="save-btn">Sauvegarder le Sondage</button>
+                <div id="alert" class="hidden"></div>
             </form>
         </div>
     </main>

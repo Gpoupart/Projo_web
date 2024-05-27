@@ -1,11 +1,13 @@
 package beans;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.ManyToMany;
 /**
@@ -25,11 +27,11 @@ public class Sondage {
   private String categorie;
 
   // pour simplifier
-  @OneToMany
-  private List<Question> questions;
+  @OneToMany(mappedBy="sondage", fetch= FetchType.EAGER)
+  private List<Question> questions= new ArrayList<Question>();
 
   @OneToMany
-  private List<Historique> historique; /* can be null */
+  private List<Historique> historique= new ArrayList<Historique>(); /* can be null */
 
   public Sondage() {
 	  
