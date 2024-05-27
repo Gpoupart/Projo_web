@@ -66,10 +66,15 @@
                             <label for="options">Options (séparées par des sauts de ligne)</label>
                             <textarea id="options" name="options"></textarea>
                         </div>
-                        <div class="button-groupe-row">
-                            <button type="button" id="addQuestionBtn">Ajouter la Question</button>
-                            <button type="submit" class="save-btn">Sauvegarder le Sondage</button>
+                        <div class="input-group">
+                            <label for="group-select">Groupes pouvant participer</label>
+                            <select id="group-select" name="group-select" multiple required>
+                                <!-- Options seront ajoutées dynamiquement -->
+                            </select>
                         </div>
+                        <button type="button" id="addQuestionBtn">Ajouter la Question</button>
+                        <div id="questions"></div>
+                        <button type="submit" class="save-btn">Sauvegarder le Sondage</button>
                     </form>
                 </div>
             </main>

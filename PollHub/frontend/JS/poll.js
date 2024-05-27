@@ -6,6 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('showCreateGroupForm').style.display = 'block';
     }
 
+    // Charger les groupes existants
+    fetch('http://localhost:8080/PollHub/rest/groups')
+        .then(response => response.json())
+        .then(groups => {
+            const groupSelect = document.getElementById('group-select');
+            groups.forEach(group => {
+                const option = document.createElement('option');
+                option.value = group.id; // Assurez-vous que l'objet groupe contient un id
+                option.textContent = group.name; // Assurez-vous que l'objet groupe contient un nom
+                groupSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Erreur lors du chargement des groupes:', error));
+
     document.getElementById('createPollLink').addEventListener('click', () => {
         document.getElementById('welcomeMessage').style.display = 'none';
         document.getElementById('createPollContainer').style.display = 'block';
@@ -20,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let form = document.getElementById('createPollForm');
         let pollTitle = form.elements["pollTitle"].value;
         let questions = [];
+        let selectedGroups = Array.from(form.elements["group-select"].selectedOptions).map(option => option.value);
 
         document.querySelectorAll('.question').forEach(questionDiv => {
             let questionText = questionDiv.querySelector('label').textContent;
@@ -35,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let data = {
             pollTitle: pollTitle,
-            questions: questions
+            questions: questions,
+            groups: selectedGroups
         };
 
         console.log("Sending data to server:", data);
