@@ -3,6 +3,7 @@ package beans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.JsonValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ public class Question {
     private String question;
 
     private int nb_rep;
+    
+    private String type;
 
     @OneToMany
     private List<Reponse> reponses = new ArrayList<Reponse>();
@@ -50,8 +53,15 @@ public class Question {
     public void setQuestion(String question) {
         this.question = question;
     }
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 
-    
+   
     
 }
 
