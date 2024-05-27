@@ -7,8 +7,9 @@ import javax.ws.rs.core.Response;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonArray;
+import javax.json.JsonString;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import beans.Question;
@@ -44,20 +45,19 @@ public class QuestionRest {
 
             Question question = new Question();
             question.setQuestion(questionText);
-            //question.setQuestionType(questionType);
+            question.setType(questionType);
             question.setNb_rep(nbRep);
 
             questionManager.createQuestion(question);
 
-            List<String> options = new ArrayList<>();
-            if (jsonObject.containsKey("options")) {
-                for (JsonObject optionJson : jsonObject.getJsonArray("options").getValuesAs(JsonObject.class)) {
-                    String optionText = optionJson.getString("text");
+            if ("multiple-choice".equals(questionType)) {
+                JsonArray optionsArray = jsonObject.getJsonArray("options");
+                for (JsonString optionJson : optionsArray.getValuesAs(JsonString.class)) {
+                    String optionText = optionJson.getString();
                     Reponse reponse = new Reponse();
                     reponse.setReponse(optionText);
                     reponse.setQuestion(question);
                     reponseManager.createReponse(reponse);
-                    options.add(optionText);
                 }
             }
 

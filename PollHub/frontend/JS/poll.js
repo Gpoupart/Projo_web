@@ -35,7 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let data = {
             pollTitle: pollTitle,
-            questions: questions
+            questions: questions.map(q => ({
+                question: q.questionText,
+                questionType: q.questionType,
+                nb_rep: 0,
+                options: q.options
+            }))
         };
 
         console.log("Sending data to server:", data);
@@ -65,47 +70,88 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function addQuestion() {
+    async function addQuestion() {
         var questionContainer = document.getElementById('questions');
+        if (!questionContainer) {
+            console.error("Element with ID 'questions' not found");
+            return;
+        }
+
         var questionType = document.getElementById('question-type').value;
         var questionText = document.getElementById('question-text').value;
 
-        var questionDiv = document.createElement('div');
-        questionDiv.className = 'question';
+        let data = {
+            question: questionText,
+            questionType: questionType,
+            nb_rep: 0,
+            options: questionType === 'multiple-choice' ? document.getElementById('options').value.split('\n') : []
+        };
 
-        var label = document.createElement('label');
-        label.textContent = questionText;
-        questionDiv.appendChild(label);
+        console.log("Sending question data to server:", data);
 
-        if (questionType === 'multiple-choice') {
-            var options = document.getElementById('options').value.split('\n');
-            options.forEach(function(option) {
-                var optionDiv = document.createElement('div');
-                var radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = questionText;
-                radio.value = option;
-                optionDiv.appendChild(radio);
-                var optionLabel = document.createElement('label');
-                optionLabel.textContent = option;
-                optionDiv.appendChild(optionLabel);
-                questionDiv.appendChild(optionDiv);
+        try {
+            let response = await fetch('http://localhost:8080/PollHub/rest/question/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             });
-        } else {
-            var textarea = document.createElement('textarea');
-            questionDiv.appendChild(textarea);
+
+            console.log("Response from server:", response);
+
+            if (response.ok) {
+                let responseData = await response.json();
+
+                // Afficher la question seulement après avoir reçu une réponse positive du serveur
+                var questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+
+                var label = document.createElement('label');
+                label.textContent = questionText;
+                questionDiv.appendChild(label);
+
+                if (questionType === 'multiple-choice') {
+                    data.options.forEach(function(option) {
+                        var optionDiv = document.createElement('div');
+                        var radio = document.createElement('input');
+                        radio.type = 'radio';
+                        radio.name = questionText;
+                        radio.value = option;
+                        optionDiv.appendChild(radio);
+                        var optionLabel = document.createElement('label');
+                        optionLabel.textContent = option;
+                        optionDiv.appendChild(optionLabel);
+                        questionDiv.appendChild(optionDiv);
+                    });
+                } else {
+                    var textarea = document.createElement('textarea');
+                    questionDiv.appendChild(textarea);
+                }
+
+                questionContainer.appendChild(questionDiv);
+
+                document.getElementById('question-text').value = '';
+                document.getElementById('options').value = '';
+            } else {
+                const errorMessage = await response.text();
+                displayMessage(errorMessage, 'error');
+            }
+        } catch (error) {
+            console.error("Error during fetch:", error);
+            displayMessage('Une erreur s\'est produite. Veuillez réessayer.', 'error');
         }
-
-        questionContainer.appendChild(questionDiv);
-
-        document.getElementById('question-text').value = '';
-        document.getElementById('options').value = '';
     }
 
     document.getElementById('addQuestionBtn').addEventListener('click', addQuestion);
 
     function displayMessage(message, type) {
         let alertElement = document.getElementById('alert');
+        if (!alertElement) {
+            alertElement = document.createElement('div');
+            alertElement.id = 'alert';
+            document.body.appendChild(alertElement);
+        }
         alertElement.classList.remove('success', 'error');
         alertElement.innerHTML = message;
         alertElement.classList.add(type);
