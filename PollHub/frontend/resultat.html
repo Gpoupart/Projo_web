@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Résultats</title>
+    <link rel="stylesheet" href="stylesQuestion.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Exemple de données de résultats
+            const results = [
+                { question: "Quelle est votre couleur préférée ?", responses: { "Rouge": 5, "Bleu": 10, "Vert": 3, "Jaune": 2 } },
+                { question: "Quel est votre animal préféré ?", responses: { "Chat": 8, "Chien": 12, "Oiseau": 4, "Poisson": 1 } },
+                { question: "Quel est votre fruit préféré ?", responses: { "Pomme": 7, "Banane": 5, "Orange": 6, "Fraise": 4 } }
+            ];
+
+            const resultsContainer = document.getElementById('results-container');
+
+            // Fonction pour afficher les résultats
+            function displayResults() {
+                results.forEach(result => {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.classList.add('result');
+
+                    const questionTitle = document.createElement('h3');
+                    questionTitle.textContent = result.question;
+                    resultDiv.appendChild(questionTitle);
+
+                    const responseList = document.createElement('ul');
+                    for (let response in result.responses) {
+                        const responseItem = document.createElement('li');
+                        responseItem.textContent = `${response}: ${result.responses[response]} votes`;
+                        responseList.appendChild(responseItem);
+                    }
+                    resultDiv.appendChild(responseList);
+
+                    resultsContainer.appendChild(resultDiv);
+                });
+            }
+
+            // Afficher les résultats au chargement de la page
+            displayResults();
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="results-container" id="results-container">
+            <!-- Les résultats seront ajoutés ici par JavaScript -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
