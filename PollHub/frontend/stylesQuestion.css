@@ -1,0 +1,143 @@
+/* Styles généraux */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff7e5f;
+}
+
+.logo .hub {
+    color: #feb47b;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Changer la direction du flex pour colonne */
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.question-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 80%;
+    max-width: 600px;
+    animation: fadeIn 2s ease;
+}
+
+.question {
+    margin-bottom: 20px;
+    animation: slideIn 1s ease-out;
+}
+
+.question h3 {
+    margin: 0 0 10px 0;
+    color: #ff7e5f;
+    transition: color 0.3s ease;
+}
+
+.question:hover h3 {
+    color: #2196F3; /* Changer la couleur du texte au survol */
+}
+
+.question label {
+    display: block;
+    margin: 5px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.question label:hover {
+    background: #ff7e5f;
+    color: #fff;
+    cursor: pointer;
+    transform: translateX(10px); /* Déplacer légèrement les choix au survol */
+}
+
+button {
+    display: block;
+    width: 100%;
+    max-width: 150px; /* Ajout de la largeur maximale */
+    padding: 10px;
+    font-size: 1.2rem;
+    color: #fff;
+    background: linear-gradient(135deg, #f90808, #ec928d); /* Changer le dégradé pour du bleu */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+    margin: 20px auto 0 auto; /* Centrer le bouton et ajouter de la marge en haut */
+    animation: bounceIn 2s ease;
+}
+
+
+button:hover {
+    background: linear-gradient(135deg, #d1f727, #77f61d); /* Inverser les couleurs pour l'effet de survol */
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #ffffff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
