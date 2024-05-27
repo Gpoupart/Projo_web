@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('showCreateGroupForm').addEventListener('click', () => {
         document.getElementById('welcomeMessage').style.display = 'none'; // Hide welcome message
         document.getElementById('createGroupContainer').style.display = 'block';
-        document.getElementById('showCreateGroupForm').style.display = 'none'; // Hide the create group link in the sidebar
-        document.getElementById('createPollContainer').style.display = 'none'; // Hide the create poll container if it's open
-        document.getElementById('createPollLink').style.display = 'block'; // Ensure the create poll link is visible
+        document.getElementById('showCreateGroupForm').classList.add('disabled-link'); // Disable the create group link
+        document.getElementById('createPollContainer').style.display = 'none';
+        document.getElementById('createPollLink').classList.remove('disabled-link'); // Enable the create poll link
     });
 
     document.getElementById('createGroupForm').addEventListener('submit', async function (event) {
