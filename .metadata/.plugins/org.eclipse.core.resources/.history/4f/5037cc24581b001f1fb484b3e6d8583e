@@ -1,0 +1,10 @@
+async function login(ev) {
+	ev.preventDefault();
+	let data = {
+		mail  : form.element["email"].value,
+		mdp : form.element["mdp"].value,
+		
+	};
+	
+	post
+}

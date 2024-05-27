@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Inscription</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="signup-container">
+            <h2>Inscription</h2>
+            <div id="alert"></div>
+            <form onsubmit="signup(event)">
+                <div class="input-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <div class="input-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" name="prenom" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Adresse Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirmer le mot de passe</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <div class="input-group">
+                    <label>Vous êtes :</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="user-type" value="student" onchange="toggleStudentFields()" required> Étudiant</label>
+                        <label><input type="radio" name="user-type" value="teacher" onchange="toggleStudentFields()" required> Professeur</label>
+                    </div>
+                </div>
+                <div id="student-fields" class="student-fields">
+                    <div class="input-group">
+                        <label for="year">Année</label>
+                        <select id="year" name="year" onchange="updateSpecialtyOptions()">
+                            <option value="1">1ère année</option>
+                            <option value="2">2ème année</option>
+                            <option value="3">3ème année</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="major">Filière</label>
+                        <select id="major" name="major" onchange="updateSpecialtyOptions()">
+                            <option value="MF2E">MF2E</option>
+                            <option value="SN">SN</option>
+                            <option value="3EA">3EA</option>
+                        </select>
+                    </div>
+                    <div class="input-group" id="specialty-container" style="display: none;">
+                        <label for="specialty">Spécialité</label>
+                        <select id="specialty" name="specialty">
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="signup-btn">S'inscrire</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+    <script type="text/javascript" src="./JS/signup.js"></script>
+</body>
+</html>

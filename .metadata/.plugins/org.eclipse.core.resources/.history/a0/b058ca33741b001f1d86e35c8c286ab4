@@ -1,0 +1,94 @@
+package rest;
+
+import java.io.StringReader;
+
+import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import javax.json.Json;
+import javax.json.JsonException;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+
+import manager.LoginManager;
+import beans.Etudiant;
+import manager.Facade;
+
+@Path("login")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class LoginRest {
+    
+    @EJB
+    private LoginManager loginManager;
+    
+    @EJB
+    private Facade facade;
+
+    /*
+    @POST
+    @Path("connexion")
+    public Response login(String json) {
+        System.out.println("login");
+        try (JsonReader reader = Json.createReader(new StringReader(json))) {
+            JsonObject jsonObject = reader.readObject();
+            String mail = jsonObject.getString("mail");
+            String password = jsonObject.getString("mdp");
+            
+            System.out.print(mail);
+            Etudiant personne = loginManager.checkLogin(mail, password);
+            if(personne == null) {
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            } else {
+                JsonObject response = Json.createObjectBuilder()
+                        .add("autorisation", personne.getAutorisation())
+                        .add("prenom", personne.getPrenom())
+                        .add("nom", personne.getNom())
+                        .build();
+                return Response.ok(response).build();
+            }
+        } catch (JsonException e) {
+            return Response.serverError().build();
+        }
+    }
+    */
+
+    
+    @POST
+    @Path("creation")
+    public Response createPeople(String json) {
+        try (JsonReader reader = Json.createReader(new StringReader(json))) {
+            JsonObject jsonObject = reader.readObject();
+            String prenom = jsonObject.getString("prenom");
+            String nom = jsonObject.getString("nom");
+            String mail = jsonObject.getString("mail");
+            String mdp = jsonObject.getString("mdp");
+            String rolle = jsonObject.getString("role");
+            
+            Integer year = null;
+            String major = null;
+            String speciality = null;
+            if (jsonObject.containsKey("year") && !jsonObject.isNull("year")) {
+                year = jsonObject.getInt("year");
+                major = jsonObject.getString("major");
+            }
+            if (jsonObject.containsKey("speciality") && !jsonObject.isNull("speciality")) {
+                speciality = jsonObject.getString("speciality");
+            }
+            boolean role = (rolle.equals("teacher"));
+            facade.creerPersonne(nom, prenom, mail, mdp, role, year, major, speciality); // Utilisation de la classe Facade pour créer la personne
+            return Response.ok("Utilisateur créé avec succès").build();
+        } catch (JsonException e) {
+            return Response.serverError().build();
+        }
+    }
+    
+}
+
+
+

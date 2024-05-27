@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Inscription</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function generateCaptcha() {
+            var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var captchaLength = 6;
+            var captcha = '';
+            for (var i = 0; i < captchaLength; i++) {
+                var randomIndex = Math.floor(Math.random() * chars.length);
+                captcha += chars[randomIndex];
+            }
+            return captcha;
+        }
+
+        function displayCaptcha() {
+            var captcha = generateCaptcha();
+            document.getElementById('captcha-display').innerText = captcha;
+            document.getElementById('captcha-value').value = captcha;
+        }
+
+        function validateCaptcha(event) {
+            var enteredCaptcha = document.getElementById('captcha').value;
+            var actualCaptcha = document.getElementById('captcha-value').value;
+            if (enteredCaptcha !== actualCaptcha) {
+                event.preventDefault();
+                alert('CAPTCHA incorrect. Veuillez réessayer.');
+            }
+        }
+
+        window.onload = function() {
+            displayCaptcha();
+            updateSpecialtyOptions();
+        }
+
+        function toggleStudentFields() {
+            var userType = document.querySelector('input[name="user-type"]:checked').value;
+            var studentFields = document.getElementById('student-fields');
+            if (userType === 'student') {
+                studentFields.classList.add('active');
+            } else {
+                studentFields.classList.remove('active');
+            }
+        }
+
+        function updateSpecialtyOptions() {
+            var userType = document.querySelector('input[name="user-type"]:checked').value;
+            var studentFields = document.getElementById('student-fields');
+            if (userType === 'student') {
+                var year = document.getElementById('year').value;
+                var major = document.getElementById('major').value;
+                var specialtyContainer = document.getElementById('specialty-container');
+                var specialtySelect = document.getElementById('specialty');
+                var specialties = {
+                    "SN": ["IMM", "HPC BG", "Télécom", "Réseaux", "ASR", "Logiciel", "ModIA"],
+                    "MF2E": {
+                        "2": ["Eau et environnement", "Energie"],
+                        "3": ["Fluide énergie et procédé", "Science de l'eau et de l'environnement", "modélisation et simulation numérique"]
+                    },
+                    "3EA": ["InSYS", "SysCOM", "PN", "IATI", "SATR", "SEF", "SM"]
+                };
+
+                specialtySelect.innerHTML = '';
+
+                if (year === "1") {
+                    specialtyContainer.style.display = 'none';
+                } else {
+                    specialtyContainer.style.display = 'block';
+
+                    if (specialties[major]) {
+                        var options = Array.isArray(specialties[major]) ? specialties[major] : specialties[major][year] || [];
+                        options.forEach(function(specialty) {
+                            var option = document.createElement('option');
+                            option.value = specialty;
+                            option.text = specialty;
+                            specialtySelect.appendChild(option);
+                        });
+                    }
+                }
+            } else {
+                studentFields.classList.remove('active');
+            }
+        }
+
+        function register(event) {
+            event.preventDefault();
+            // Simuler l'inscription, ici vous pouvez ajouter votre logique de validation
+            window.location.href = 'home.html';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="signup-container">
+            <h2>Inscription</h2>
+            <form onsubmit="validateCaptcha(event); register(event)">
+                <div class="input-group">
+                    <label for="email">Adresse Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirmer le mot de passe</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <div class="input-group">
+                    <label>Vous êtes :</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="user-type" value="student" onchange="toggleStudentFields()" required> Étudiant</label>
+                        <label><input type="radio" name="user-type" value="teacher" onchange="toggleStudentFields()" required> Professeur</label>
+                    </div>
+                </div>
+                <div id="student-fields" class="student-fields">
+                    <div class="input-group">
+                        <label for="year">Année</label>
+                        <select id="year" name="year" onchange="updateSpecialtyOptions()">
+                            <option value="1">1ère année</option>
+                            <option value="2">2ème année</option>
+                            <option value="3">3ème année</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="major">Filière</label>
+                        <select id="major" name="major" onchange="updateSpecialtyOptions()">
+                            <option value="MF2E">MF2E</option>
+                            <option value="SN">SN</option>
+                            <option value="3EA">3EA</option>
+                        </select>
+                    </div>
+                    <div class="input-group" id="specialty-container" style="display: none;">
+                        <label for="specialty">Spécialité</label>
+                        <select id="specialty" name="specialty">
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="captcha">CAPTCHA</label>
+                    <div id="captcha-display" style="font-weight: bold; margin-bottom: 0.5em;"></div>
+                    <input type="text" id="captcha" name="captcha" required>
+                    <input type="hidden" id="captcha-value">
+                </div>
+                <button type="submit" class="signup-btn">S'inscrire</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

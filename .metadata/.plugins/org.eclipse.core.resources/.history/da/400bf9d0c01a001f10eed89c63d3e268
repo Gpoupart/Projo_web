@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Accueil</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        window.onload = function() {
+            // Simuler le type d'utilisateur pour l'exemple
+            var userType = localStorage.getItem('userType') || 'student'; // 'student' ou 'teacher'
+            var welcomeMessage = document.getElementById('welcome-message');
+            var studentOptions = document.getElementById('student-options');
+            var teacherOptions = document.getElementById('teacher-options');
+
+            if (userType === 'student') {
+                welcomeMessage.textContent = 'Bienvenue, Étudiant!';
+                studentOptions.style.display = 'block';
+                teacherOptions.style.display = 'none';
+            } else if (userType === 'teacher') {
+                welcomeMessage.textContent = 'Bienvenue, Professeur!';
+                studentOptions.style.display = 'none';
+                teacherOptions.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="home-container">
+            <h2 id="welcome-message">Bienvenue!</h2>
+            <div id="student-options" style="display: none;">
+                <h3>Options pour les étudiants</h3>
+                <ul>
+                    <li><a href="#">Créer un sondage</a></li>
+                    <li><a href="#">Voir les sondages</a></li>
+                    <li><a href="#">Résultats</a></li>
+                </ul>
+            </div>
+            <div id="teacher-options" style="display: none;">
+                <h3>Options pour les professeurs</h3>
+                <ul>
+                    <li><a href="#">Créer un sondage</a></li>
+                    <li><a href="#">Voir les sondages</a></li>
+                    <li><a href="#">Résultats</a></li>
+                    <li><a href="#">Gérer les étudiants</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

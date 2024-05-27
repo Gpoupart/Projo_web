@@ -1,0 +1,41 @@
+import static org.junit.Assert.*;
+
+import javax.ejb.embeddable.EJBContainer;
+import javax.naming.Context;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import beans.Personne;
+import manager.LoginManager;
+
+public class LoginManagerTest {
+
+    private EJBContainer container;
+    private Context context;
+    private LoginManager loginManager;
+
+    @Before
+    public void setUp() throws Exception {
+        container = EJBContainer.createEJBContainer();
+        context = container.getContext();
+        loginManager = (LoginManager) context.lookup("java:global/classes/LoginManager");
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        container.close();
+    }
+
+    @Test
+    public void testCreatePeople() {
+        Personne personne = new Personne("Test", "User", "testuser@mail.com", "password");
+        loginManager.createPeople(personne);
+
+        Personne fetchedPersonne = loginManager.checkLogin("testuser@mail.com", "password");
+        assertNotNull(fetchedPersonne);
+        assertEquals("Test", fetchedPersonne.getNom());
+        assertEquals("User", fetchedPersonne.getPrenom());
+    }
+}

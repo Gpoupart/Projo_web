@@ -1,0 +1,28 @@
+package manager;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import beans.Personne;
+
+@Stateless
+public class LoginManager {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public Personne checkLogin(String mail, String mdp) {
+        try {
+            return em.createQuery("SELECT p FROM Personne p WHERE p.mail = :mail AND p.mdp = :mdp", Personne.class)
+                     .setParameter("mail", mail)
+                     .setParameter("mdp", mdp)
+                     .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void createPeople(Personne personne) {
+        em.persist(personne);
+    }
+}

@@ -1,0 +1,31 @@
+package rest;
+
+import javax.ejb.EJB;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import manager.TestManager;
+
+import java.util.List;
+
+@Path("test")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class TestRest {
+	
+	@EJB
+    private TestManager testManager;
+
+    @GET
+    @Path("method")
+    public void test() {
+    	
+    	testManager.addPerson(role, "lbolbene", "0000", "Lucas", "Bolbènes", "lucasbolbenes@gmail.com", "06", null);
+    	
+    }
+    
+
+
+
+}

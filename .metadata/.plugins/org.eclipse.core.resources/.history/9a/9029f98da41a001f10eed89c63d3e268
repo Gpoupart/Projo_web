@@ -1,0 +1,11 @@
+package manager;
+
+import javax.ejb.Stateless;
+
+@Stateless
+public class TestManager {
+	
+	@PersistenceContext
+	EntityManager em;
+
+}

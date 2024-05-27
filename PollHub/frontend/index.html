@@ -1,0 +1,185 @@
+<!-- 
+ <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Accueil</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function redirectToSignup() {
+            window.location.href = 'signup.html';
+        }
+
+        function login(event) {
+            event.preventDefault();
+            // Simuler la connexion, ici vous pouvez ajouter votre logique de validation
+            window.location.href = 'home.html';
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="login-container">
+            <h2>Connexion</h2>
+            <form onsubmit="login(event)">
+                <div class="input-group">
+                    <label for="email">Adresse Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Se connecter</button>
+                <button type="button" class="signup-btn" onclick="redirectToSignup()">Créer un compte</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Accueil</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="./JS/signin.js" ></script>
+
+    
+    <script>
+        function redirectToSignup() {
+            window.location.href = 'signup.html';
+        }
+        /*
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=None; Secure";
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=-99999999;';
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            fetch('http://localhost:8080/PollHub2/rest/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ldap: email, password: password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Erreur de connexion');
+                }
+            })
+            .then(data => {
+                setCookie('ldap', email, 1);
+                setCookie('role', data.role, 1);
+                setCookie('connected', true, 1);
+                alert('Connexion réussie');
+                window.location.href = 'home.html';
+            })
+            .catch(error => {
+                console.error('Erreur lors de la connexion :', error);
+                alert('Mauvais identifiants ou mot de passe.');
+            });
+        }
+
+        function checkLoggedIn() {
+            const connected = getCookie('connected');
+            if (connected) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('logout-container').style.display = 'block';
+                document.getElementById('user-info').innerText = 'Welcome, ' + getCookie('ldap') + ', ' + getCookie('role') + '!';
+            } else {
+                document.getElementById('login-container').style.display = 'block';
+                document.getElementById('logout-container').style.display = 'none';
+            }
+        }
+
+        function logout() {
+            eraseCookie('ldap');
+            eraseCookie('role');
+            eraseCookie('connected');
+            alert('Déconnexion réussie');
+            window.location.href = 'index.html';
+        }
+
+        window.onload = function() {
+            checkLoggedIn();
+        */
+    </script>
+   
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Connexion</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="./JS/signin.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div id="login-container" class="login-container">
+            <h2>Connexion</h2>
+            <form>
+                <div class="input-group">
+                    <label for="email">Adresse Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Se connecter</button>
+                <button type="button" class="signup-btn" onclick="redirectToSignup()">Créer un compte</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
+

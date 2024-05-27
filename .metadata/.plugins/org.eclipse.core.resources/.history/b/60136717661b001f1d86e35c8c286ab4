@@ -1,0 +1,68 @@
+package beans;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Etudiant {
+   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    private String nom;
+    private String prenom;
+    private String mail;
+    private String mdp;
+    private boolean autorisation;
+    
+    @ManyToMany
+    private List<Groupe> groupes;
+    
+    public Etudiant() {
+    	
+    }
+    
+    public Etudiant(String nom, String prenom, String mail, String mdp, boolean autorisation) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.mdp = mdp;
+        this.autorisation = autorisation;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public boolean getAutorisation() {
+        return autorisation;
+    }
+
+    //changer l'autorisation en focntion de l'adresse mail
+    public void setAutorisation(boolean autorisation) {
+        this.autorisation = autorisation;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+}

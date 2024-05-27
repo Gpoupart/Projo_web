@@ -1,0 +1,43 @@
+package beans;
+
+import java.util.List;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+@Entity
+public class Subject implements Serializable{
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+    private String name;
+
+    @ManyToMany(mappedBy = "subjects", fetch=FetchType.EAGER)
+    private List<StudentGroup> studentGroups;
+    
+    @ManyToMany(mappedBy = "subjects", fetch=FetchType.EAGER)
+    private List<Teacher> teachers;
+
+    @OneToMany(mappedBy ="subject", fetch=FetchType.EAGER)
+    private List<Slot> slots;
+
+    public Subject() {}
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+}

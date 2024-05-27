@@ -1,0 +1,29 @@
+package beans;
+
+import java.util.List;
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
+public class Teacher extends Person implements Serializable{
+    
+    @ManyToMany
+    private List<Subject> subjects;
+    
+    @OneToMany(mappedBy ="teacher")
+    private List<Slot> slots;
+    
+    public Teacher() {}
+    
+	public Teacher(String ldap, String password, String name, String lastname, String email, String phone, LocalDate birthdate) {
+		super(ldap, password, name, lastname, email, phone, birthdate);
+	}
+
+}

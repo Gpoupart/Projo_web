@@ -1,0 +1,78 @@
+package beans;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Slot implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+    @GeneratedValue
+    private Long id;
+
+    @Column(name = "begin")
+    private LocalDate begin;
+
+    @Column(name = "end")
+    private LocalDate end;
+
+    private String classroom;
+
+    @ManyToOne
+    private Subject subject;
+
+    @ManyToOne
+    private Teacher teacher;
+
+    @ManyToOne
+    private StudentGroup studentGroup;
+
+    public Slot() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+	public String getClassroom() {
+		return classroom;
+	}
+
+	public void setClassroom(String classroom) {
+		this.classroom = classroom;
+	}
+
+	public LocalDate getBegin() {
+		return begin;
+	}
+
+	public void setBegin(LocalDate begin) {
+		this.begin = begin;
+	}
+
+	public LocalDate getEnd() {
+		return end;
+	}
+
+	public void setEnd(LocalDate end) {
+		this.end = end;
+	}
+
+
+        
+}

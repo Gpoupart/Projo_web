@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Accueil</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            height: 100vh;
+        }
+        .header-container {
+            flex: 0 0 auto;
+        }
+        .main-container {
+            display: flex;
+            flex: 1 1 auto;
+        }
+        .sidebar {
+            width: 25%;
+            background-color: #d3d3d3; /* Gris clair */
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            display: block;
+            background-color: #444;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #d3d3d3; /* Gris clair */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .logout-btn {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .logout-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-container">
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+        <button class="logout-btn" onclick="window.location.href='login.html'">Déconnexion</button>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <!-- Liens spécifiques à la barre latérale seront ajoutés dynamiquement -->
+        </div>
+        <div class="content">
+            <main>
+                <h1>Bienvenue sur PollHub</h1>
+                <div id="content">
+                    <!-- Contenu spécifique à chaque utilisateur -->
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/api/getUserType')  // Remplacez par le chemin de votre API
+                .then(response => response.json())
+                .then(data => {
+                    const userType = data.type; // Supposons que l'API renvoie un objet { type: 'student' } ou { type: 'teacher' }
+                    const contentDiv = document.getElementById('content');
+                    const sidebar = document.querySelector('.sidebar');
+
+                    // Afficher les liens en fonction du type d'utilisateur
+                    if (userType === 'student') {
+                        sidebar.innerHTML = `
+                            <a href="participatedPolls.html">Sondages auxquels vous avez participé</a>
+                            <a href="availablePolls.html">Sondages auxquels vous pouvez participer</a>
+                        `;
+                    } else  {
+                        sidebar.innerHTML = `
+                            <a href="participatedPolls.html">Sondages auxquels vous avez participé</a>
+                            <a href="availablePolls.html">Sondages auxquels vous pouvez participer</a>
+                            <a href="createPoll.html">Créer un nouveau sondage</a>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user type:', error);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+package beans;
+
+
+import java.util.List;
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+
+import tools.Tools;
+
+@Entity
+public class Student extends Person implements Serializable{
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@ManyToMany(mappedBy = "students")
+    private List<StudentGroup> studentGroups;
+    
+    public Student() {}
+
+    public Student(String ldap, String password, String name, String lastname, String email, String phone, LocalDate birthdate) {
+		super(ldap, password, name, lastname, email, phone, birthdate);
+		System.out.println("creation of student : " + name + ", " + lastname);
+	}
+
+
+
+	public List<StudentGroup> getGroupeEleve() {
+        return studentGroups;
+    }
+
+    public void setGroupeEleve(List<StudentGroup> studentGroups) {
+        this.studentGroups = studentGroups;
+    }
+
+
+    
+}

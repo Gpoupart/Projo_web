@@ -1,0 +1,6 @@
+package manager;
+
+@Stateless
+public class TestManager {
+
+}

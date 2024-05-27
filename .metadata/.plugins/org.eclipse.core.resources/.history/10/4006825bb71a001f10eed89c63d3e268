@@ -1,0 +1,42 @@
+package manager;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import beans.*;
+
+
+@Stateless
+public class Facade {
+	
+	@PersistenceContext
+	EntityManager em;
+	
+	public void creerPersonne(String mail, String password, String prenom, String nom) {
+		Personne pers = new Personne(nom,prenom,mail,password);
+		em.persist(pers);
+	}
+	
+	public void creerQuestion(String questions) {
+		Question question = new Question(questions);
+		em.persist(question);
+	}
+	
+	public void creerReponse(String reponses) {
+		Reponse reponse = new Reponse(reponses);
+		em.persist(reponse);
+	}
+	
+	public void creerGroupe(String nom) {
+		Groupe groupe= new Groupe(nom);
+		em.persist(groupe);
+	}
+	
+	
+	public void creerSondage(List<Question> questions, List<Groupe> groupes) {
+		Sondage sondage = new Sondage(questions,groupes);
+		em.persist(sondage);
+	}
+
+}

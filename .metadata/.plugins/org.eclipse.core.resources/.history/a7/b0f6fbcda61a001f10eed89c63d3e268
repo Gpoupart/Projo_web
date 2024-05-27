@@ -1,0 +1,10 @@
+package beans;
+
+public enum Role {
+    ADMIN, PROFESSOR, STUDENT;
+
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
+}

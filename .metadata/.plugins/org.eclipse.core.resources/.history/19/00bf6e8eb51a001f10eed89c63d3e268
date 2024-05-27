@@ -1,0 +1,24 @@
+package manager;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import beans.*;
+import beans.Groupe;
+
+@Stateless
+public class TestManager {
+	
+	@PersistenceContext
+	EntityManager em;
+	
+	public void saveAlain() {
+		User a = new User();
+		a.setMail("Alain@oui.fr");
+		a.setMdp("oui");
+		em.persist(a);
+	}
+	
+
+}

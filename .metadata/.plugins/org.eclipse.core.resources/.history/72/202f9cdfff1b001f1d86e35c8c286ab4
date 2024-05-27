@@ -1,0 +1,136 @@
+package manager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+
+import beans.*;
+
+
+@Stateless
+public class Facade {
+	
+	@PersistenceContext
+	EntityManager em;
+	
+	public void creerPersonne(String nom, String prenom, String mail, String password, boolean role, int year, String major, String speciality) {
+		
+		if(!role) {
+			System.out.println("Etape 1");
+			Etudiant etudiant = new Etudiant(nom,prenom,mail,password,year, major, speciality);
+			em.persist(etudiant);
+			/*
+			System.out.println("Etape 2");
+			String groupName = etudiant.getMajor() + "_" + etudiant.getYear() + "A";
+			System.out.println("tkt frere je faire le faire l'ajout");
+			ajoutPersonneGroupe(etudiant,groupName);
+			System.out.println("tkt frere j'ai fait l'ajout");
+	        if (etudiant.getSpeciality() != null) {
+	            groupName += "_" + etudiant.getSpeciality();
+	            ajoutPersonneGroupe(etudiant,groupName);
+	            System.out.println(groupName);  
+	        }*/
+
+	       
+		} else {
+			Professeur professeur = new Professeur(nom,prenom,mail,password);
+			em.persist(professeur);
+		}
+		
+		
+	}
+	
+	public void creerQuestion(String questions) {
+		Question question = new Question(questions);
+		em.persist(question);
+	}
+	
+	public void creerReponse(String reponses) {
+		Reponse reponse = new Reponse(reponses);
+		em.persist(reponse);
+	}
+	
+
+	
+	public List<Etudiant> trouverEtudiants(List<String> etudiants) {
+		List<Etudiant> etu = new ArrayList();
+		for (String email : etudiants) {
+            Etudiant etudiant = em.find(Etudiant.class, email);
+            if (etudiant != null) {
+                etu.add(etudiant);
+            }
+		}
+		
+		return etu;
+	}
+	
+	public void creerGroupe(String nom) {
+		Groupe groupe= new Groupe(nom);
+		em.persist(groupe);
+	}
+	
+	public void ajoutPersonneGroupe(Etudiant etu, String groupName) {
+		Groupe groupe = null;
+        try {
+            groupe = em.createQuery("SELECT g FROM Groupe g WHERE g.nom = :groupName", Groupe.class)
+                    .setParameter("groupName", groupName)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            groupe = new Groupe(groupName);
+            em.persist(groupe);
+        }
+        if (groupe.getEtudiants() == null) {
+            groupe.setPersonnes(new ArrayList<>());
+        }
+        groupe.addEtudiant(etu);
+        em.merge(groupe);
+	}
+	
+	public void creerSondage(List<Question> questions, List<Groupe> groupes) {
+		Sondage sondage = new Sondage(groupes,questions);
+		em.persist(sondage);
+	}
+
+	public void creerHistorique(String nom, int numero_sondage) {
+		Historique historique = new Historique(nom,numero_sondage);
+		em.persist(historique);
+	}
+	
+	public void creerCommentaire(String commentaire, int auteur) {
+		Commentaire com = new Commentaire(commentaire,auteur);
+		em.persist(com);
+	}
+	
+	public void initGroupe() {
+		//groupe de base SN
+		Groupe sn_1A = new Groupe("sn_1A");
+		em.persist(sn_1A);
+		Groupe sn_2A = new Groupe("sn_2A");
+		em.persist(sn_2A);
+		Groupe sn_3A = new Groupe("sn_3A");
+		em.persist(sn_3A);
+		Groupe sn_2A_IMM = new Groupe("sn_2A_IMM");
+		em.persist(sn_2A_IMM);
+		Groupe sn_2A_HPCB = new Groupe("sn_2A_HPCB");
+		em.persist(sn_2A_HPCB);
+		//groupe de base 3EA
+		Groupe eeea_1A = new Groupe("eeea_1A");
+		em.persist(eeea_1A);
+		Groupe eeea_2A = new Groupe("eeea_2A");
+		em.persist(eeea_2A);
+		Groupe eeea_3A = new Groupe("eeea_3A");
+		em.persist(eeea_3A);
+		//groupe de base MF2E
+		Groupe mf2e_1A = new Groupe("mf2e_1A");
+		em.persist(mf2e_1A);
+		Groupe mf2e_2A = new Groupe("mf2e_2A");
+		em.persist(mf2e_2A);
+		Groupe mf2e_3A = new Groupe("mf2e_3A");
+		em.persist(mf2e_3A);
+	}
+	
+}
