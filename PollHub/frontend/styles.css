@@ -192,15 +192,17 @@ body {
     align-items: center;
     padding-top: 20px;
     box-sizing: border-box;
+    font-family: arial;
+    font-size: 30px;
 }
 
 .sidebar a {
     display: block;
-    background-color: #444;
+    background-color:  #2558a5;
     color: white;
     text-decoration: none;
-    padding: 10px;
-    margin: 10px;
+    padding: 50px 0;
+    margin: auto;
     width: 80%;
     text-align: center;
     border-radius: 5px;
@@ -241,6 +243,31 @@ body {
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 30px;
+}
+
+.create-poll-container {
+    font-size: 30px;
+}
+
+.button-groupe-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button-groupe-row button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 2px;
+    color: white;
+    background-color: #1c1c1c;
+}
+
+select, textarea, input, button {
+    font-size: 30px;
 }
 
 .input-group {
@@ -266,6 +293,7 @@ body {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
+    font-size: 30px;
 }
 
 .create-group-btn:hover {
@@ -282,4 +310,10 @@ body {
 
 .error {
     color: red;
+}
+
+.disabled-link {
+    pointer-events: none; 
+    color: grey;
+    opacity: 0.6; 
 }
