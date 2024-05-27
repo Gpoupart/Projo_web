@@ -5,121 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PollHub - Accueil</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="./JS/home.js" ></script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            height: 100vh;
-        }
-        .header-container {
-            flex: 0 0 auto;
-        }
-        .main-container {
-            display: flex;
-            flex: 1 1 auto;
-        }
-        .sidebar {
-            width: 25%;
-            background-color: #d3d3d3; /* Gris clair */
-            color: black;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            box-sizing: border-box;
-        }
-        .sidebar a {
-            display: block;
-            background-color: #444;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            margin: 10px;
-            width: 80%;
-            text-align: center;
-            border-radius: 5px;
-        }
-        .sidebar a:hover {
-            background-color: #555;
-        }
-        .content {
-            flex: 1;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background-color: #d3d3d3; /* Gris clair */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .logout-btn {
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .logout-btn:hover {
-            background-color: #c9302c;
-        }
-        .create-group-container {
-            display: none;
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .create-group-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .create-group-btn:hover {
-            background-color: #45a049;
-        }
-        #alert {
-            margin-top: 20px;
-        }
-        .success {
-            color: green;
-        }
-        .error {
-            color: red;
-        }
-    </style>
+    <script type="text/javascript" src="./JS/home.js"></script>
+    <script type="text/javascript" src="./JS/group.js"></script>
+    <script type="text/javascript" src="./JS/poll.js"></script> <!-- Include the new poll script -->
 </head>
 <body>
     <header class="header-container">
         <div class="logo">
-            <span class="poll">Poll</span><span class="hub">Hub</span>
+            <img src="Pollhub_dark_mode.png" alt="Logo de PollHub">
         </div>
         <button class="logout-btn" onclick="window.location.href='index.html'">Déconnexion</button>
     </header>
@@ -127,12 +20,12 @@
         <div class="sidebar">
             <a href="participatedPolls.html">Sondages auxquels vous avez participé</a>
             <a href="availablePolls.html">Sondages auxquels vous pouvez participer</a>
-            <a href="createPoll.html" id="createPollLink" style="display: none;">Créer un nouveau sondage</a>
+            <a href="#" id="createPollLink" style="display: none;">Créer un nouveau sondage</a>
             <a href="#" id="showCreateGroupForm" style="display: none;">Créer un nouveau groupe</a>
         </div>
         <div class="content">
             <main>
-                <h1>Bienvenue sur PollHub</h1>
+                <h1 id="welcomeMessage">Bienvenue sur PollHub</h1>
                 <div id="content">
                     <!-- Contenu spécifique à chaque utilisateur -->
                 </div>
@@ -151,71 +44,38 @@
                     </form>
                     <div id="alert"></div>
                 </div>
+                <div class="create-poll-container" id="createPollContainer" style="display: none;">
+                    <h2>Créer un Sondage</h2>
+                    <form id="createPollForm">
+                        <div class="input-group">
+                            <label for="pollTitle">Titre du Sondage</label>
+                            <input type="text" id="pollTitle" name="pollTitle" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="question-type">Type de Question</label>
+                            <select id="question-type" name="question-type">
+                                <option value="multiple-choice">Choix Multiple</option>
+                                <option value="open-ended">Réponse Libre</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="question-text">Texte de la Question</label>
+                            <input type="text" id="question-text" name="question-text" required>
+                        </div>
+                        <div class="input-group" id="options-container">
+                            <label for="options">Options (séparées par des sauts de ligne)</label>
+                            <textarea id="options" name="options"></textarea>
+                        </div>
+                        <button type="button" id="addQuestionBtn">Ajouter la Question</button>
+                        <div id="questions"></div>
+                        <button type="submit" class="save-btn">Sauvegarder le Sondage</button>
+                    </form>
+                </div>
             </main>
         </div>
     </div>
     <footer>
         <p>&copy; 2024 PollHub. Tous droits réservés.</p>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const role = localStorage.getItem('role');
-            console.log("Role:", role);
-            if (role==="1") { // 1 pour Professeur
-                document.getElementById('createPollLink').style.display = 'block';
-                document.getElementById('showCreateGroupForm').style.display = 'block';
-            }
-
-            document.getElementById('showCreateGroupForm').addEventListener('click', () => {
-                document.getElementById('createGroupContainer').style.display = 'block';
-            });
-
-            document.getElementById('createGroupForm').addEventListener('submit', async function(event) {
-                event.preventDefault();
-
-                let form = document.getElementById('createGroupForm');
-                let groupName = form.elements["groupName"].value;
-                let students = form.elements["students"].value.split(',');
-
-                let data = {
-                    groupName: groupName,
-                    students: students
-                };
-
-                console.log("Sending data to server:", data);
-
-                try {
-                    let response = await fetch('http://localhost:8080/PollHub/rest/groups/create', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    console.log("Response from server:", response);
-
-                    if (response.ok) {
-                        let responseData = await response.json();
-                        displayMessage(responseData.message, 'success');
-                    } else {
-                        const errorMessage = await response.text();
-                        displayMessage(errorMessage, 'error');
-                    }
-                } catch (error) {
-                    console.error("Error during fetch:", error);
-                    displayMessage('Une erreur s\'est produite. Veuillez réessayer.', 'error');
-                }
-            });
-
-            function displayMessage(message, type) {
-                let alertElement = document.getElementById('alert');
-                alertElement.classList.remove('success', 'error');
-                alertElement.innerHTML = message;
-                alertElement.classList.add(type);
-            }
-        });
-    </script>
 </body>
 </html>

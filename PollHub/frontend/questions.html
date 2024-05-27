@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Questions</title>
+    <link rel="stylesheet" href="stylesQuestion.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Exemple de liste de questions avec leurs choix
+            const questions = [
+                {
+                    question: "Quelle est votre couleur préférée ?",
+                    choices: ["Rouge", "Bleu", "Vert", "Jaune"]
+                },
+                {
+                    question: "Quel est votre animal préféré ?",
+                    choices: ["Chat", "Chien", "Oiseau", "Poisson"]
+                },
+                {
+                    question: "Quel est votre fruit préféré ?",
+                    choices: ["Pomme", "Banane", "Orange", "Fraise"]
+                }
+            ];
+
+            const questionContainer = document.getElementById('question-container');
+
+            // Fonction pour afficher les questions et les choix
+            function displayQuestions() {
+                questions.forEach((q, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.classList.add('question');
+
+                    const questionTitle = document.createElement('h3');
+                    questionTitle.textContent = q.question;
+                    questionDiv.appendChild(questionTitle);
+
+                    q.choices.forEach(choice => {
+                        const choiceLabel = document.createElement('label');
+                        const choiceInput = document.createElement('input');
+                        choiceInput.type = 'radio';
+                        choiceInput.name = `question-${index}`;
+                        choiceInput.value = choice;
+
+                        choiceLabel.appendChild(choiceInput);
+                        choiceLabel.appendChild(document.createTextNode(choice));
+                        questionDiv.appendChild(choiceLabel);
+                    });
+
+                    questionContainer.appendChild(questionDiv);
+                });
+            }
+
+            // Afficher les questions au chargement de la page
+            displayQuestions();
+        });
+
+        function submitAnswers() {
+            const questionContainer = document.getElementById('question-container');
+            const answers = [];
+            const questions = questionContainer.getElementsByClassName('question');
+            
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                const selected = question.querySelector('input[type="radio"]:checked');
+                if (selected) {
+                    answers.push({ question: question.querySelector('h3').textContent, answer: selected.value });
+                } else {
+                    answers.push({ question: question.querySelector('h3').textContent, answer: 'Aucune réponse sélectionnée' });
+                }
+            }
+
+            console.log(answers); // Remplacez cette ligne par une requête pour envoyer les réponses au serveur
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="question-container" id="question-container">
+            <!-- Les questions seront ajoutées ici par JavaScript -->
+        </div>
+        <button type="button" onclick="submitAnswers()">Soumettre</button>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

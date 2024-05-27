@@ -14,6 +14,7 @@ public class QuestionManager {
 
     public void createQuestion(Question question) {
         em.persist(question);
+        em.flush();  // Force la synchronisation avec la base de données pour obtenir l'ID généré
     }
 
     public Question getQuestion(int id) {

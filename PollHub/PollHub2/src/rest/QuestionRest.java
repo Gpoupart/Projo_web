@@ -4,10 +4,17 @@ import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import beans.Question;
+import beans.Reponse;
 import manager.QuestionManager;
+import manager.ReponseManager;
 
 @Path("/question")
 @Produces(MediaType.APPLICATION_JSON)
@@ -17,11 +24,60 @@ public class QuestionRest {
     @EJB
     private QuestionManager questionManager;
 
+    @EJB
+    private ReponseManager reponseManager;
+
     @POST
     @Path("/create")
-    public Response createQuestion(Question question) {
-        questionManager.createQuestion(question);
-        return Response.ok().build();
+    public Response createQuestion(String json) {
+        System.out.println("Received create question request with payload: " + json);
+        try (JsonReader reader = Json.createReader(new StringReader(json))) {
+            JsonObject jsonObject = reader.readObject();
+            String questionText = jsonObject.getString("question");
+            String questionType = jsonObject.getString("questionType");
+            int nbRep = jsonObject.getInt("nb_rep");
+
+            System.out.println("Creating question with the following details:");
+            System.out.println("Question: " + questionText);
+            System.out.println("Question Type: " + questionType);
+            System.out.println("Number of Responses: " + nbRep);
+
+            Question question = new Question();
+            question.setQuestion(questionText);
+            //question.setQuestionType(questionType);
+            question.setNb_rep(nbRep);
+
+            questionManager.createQuestion(question);
+
+            List<String> options = new ArrayList<>();
+            if (jsonObject.containsKey("options")) {
+                for (JsonObject optionJson : jsonObject.getJsonArray("options").getValuesAs(JsonObject.class)) {
+                    String optionText = optionJson.getString("text");
+                    Reponse reponse = new Reponse();
+                    reponse.setReponse(optionText);
+                    reponse.setQuestion(question);
+                    reponseManager.createReponse(reponse);
+                    options.add(optionText);
+                }
+            }
+
+            JsonObject response = Json.createObjectBuilder()
+                .add("message", "Question créée avec succès")
+                .add("success", true)
+                .add("question", questionText)
+                .add("questionType", questionType)
+                .add("nb_rep", nbRep)
+                .build();
+            
+            return Response.ok(response).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JsonObject response = Json.createObjectBuilder()
+                .add("message", "Erreur lors de la création de la question")
+                .add("success", false)
+                .build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+        }
     }
 
     @GET

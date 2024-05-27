@@ -35,7 +35,7 @@ async function signup(event) {
     try {
         let response = await post('http://localhost:8080/PollHub/rest/login/creation', data);
         console.log("Response from server:", response);
-        localStorage.setItem('role', responseData.role); // verifier si mettre dans signup.js
+        localStorage.setItem('role', response.role); // verifier si mettre dans signup.js
 
         console.log("Role stored in localStorage:", localStorage.getItem('role'))
         //displayMessage(response.message, response.succes ? 'success' : 'error');

@@ -22,7 +22,8 @@ async function addQuestion() {
 
     let data = {
         question: questionText,
-        nb_rep: 0
+        nb_rep: 0,
+        questionType: questionType
     };
 
     if (questionType === 'multiple-choice') {
@@ -40,11 +41,11 @@ async function addQuestion() {
             questionDiv.appendChild(optionDiv);
         });
 
-        //data.options = options;
+        data.options = options;
     } else {
         var textarea = document.createElement('textarea');
         questionDiv.appendChild(textarea);
-        //data.replibre = textarea.value;
+        data.options = [];
     }
 
     console.log("Data to be sent:", data);
@@ -62,7 +63,7 @@ async function addQuestion() {
 
         displayMessage(response.message, response.success ? 'success' : 'error');
         if (response.success) {
-            window.location.href = 'home.html';
+            addResponse(response.id, data.options || []);
         }
     } catch (error) {
         console.error("Error during fetch:", error);
@@ -105,11 +106,32 @@ async function addResponse(questionId, responses) {
         console.error("Error during fetch:", error);
         displayMessage('Une erreur s\'est produite. Veuillez réessayer.', 'error');
     }
+}
 
-    function displayMessage(message, type) {
-        let alertElement = document.getElementById('alert');
-        alertElement.classList.remove('success', 'error');
-        alertElement.innerHTML = message;
-        alertElement.classList.add(type);
+function displayMessage(message, type) {
+    let alertElement = document.getElementById('alert');
+    if (!alertElement) {
+        alertElement = document.createElement('div');
+        alertElement.id = 'alert';
+        document.body.appendChild(alertElement);
     }
+    alertElement.classList.remove('hidden', 'success', 'error');
+    alertElement.innerHTML = message;
+    alertElement.classList.add(type);
+}
+
+function post(url, data) {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json());
+}
+
+function savePoll(event) {
+    event.preventDefault();
+    alert('Sondage sauvegardé !');
+    window.location.href = 'home.html';
 }

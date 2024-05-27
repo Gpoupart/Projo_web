@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PollHub - Nouvelle Question</title>
+    <link rel="stylesheet" href="stylesQuestion.css">
+    <style>
+        .input-group input[type="text"], .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group input[type="text"]:focus, .input-group textarea:focus {
+            border-color: #ff7e5f;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+    </style>
+    <script>
+        function addChoiceField() {
+            const choicesContainer = document.getElementById('choices-container');
+            const newChoice = document.createElement('div');
+            newChoice.classList.add('input-group');
+            newChoice.innerHTML = `
+                <label for="choice">Choix:</label>
+                <input type="text" name="choice[]" required>
+                <button type="button" onclick="removeChoiceField(this)">Supprimer</button>
+            `;
+            choicesContainer.appendChild(newChoice);
+        }
+
+        function removeChoiceField(button) {
+            button.parentElement.remove();
+        }
+
+        function submitQuestion(event) {
+            event.preventDefault();
+            const formData = new FormData(document.getElementById('question-form'));
+            // Ici on traite la data a envoyer 
+            console.log('Question:', formData.get('question'));
+            formData.getAll('choice[]').forEach((choice, index) => {
+                console.log(`Choice ${index + 1}:`, choice);
+            });
+            alert('Question soumise!');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span class="poll">Poll</span><span class="hub">Hub</span>
+        </div>
+    </header>
+    <main>
+        <div class="question-form-container">
+            <h2>Créer une nouvelle question</h2>
+            <form id="question-form" onsubmit="submitQuestion(event)">
+                <div class="input-group">
+                    <label for="question">Question:</label>
+                    <textarea id="question" name="question" rows="4" required></textarea>
+                </div>
+                <div id="choices-container">
+                    <div class="input-group">
+                        <label for="choice">Choix:</label>
+                        <input type="text" name="choice[]" required>
+                        <button type="button" onclick="removeChoiceField(this)">Supprimer</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addChoiceField()">Ajouter un choix</button>
+                <button type="submit">Soumettre</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 PollHub. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

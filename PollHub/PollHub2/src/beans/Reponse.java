@@ -45,5 +45,9 @@ public class Reponse {
         return reponse;
     }
 
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
     // comment verifier si reponse il y a
 }
