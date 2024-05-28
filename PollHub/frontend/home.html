@@ -15,8 +15,8 @@
     </header>
     <div class="main-container">
         <div class="sidebar">
-            <a href="participatedPolls.html">Sondages auxquels vous avez participé</a>
-            <a href="availablePolls.html">Sondages auxquels vous pouvez participer</a>
+            <a href="#" id="viewAvailablePolls">Sondages auxquels vous pouvez participer</a>
+            <a href="#" id="viewPastPolls">Sondages auxquels vous avez participés</a>
             <a href="#" id="createPollLink" style="display: none;">Créer un nouveau sondage</a>
             <a href="#" id="showCreateGroupForm" style="display: none;">Créer un nouveau groupe</a>
         </div>
@@ -24,9 +24,9 @@
             <main>
                 <h1 id="welcomeMessage">Bienvenue sur PollHub</h1>
                 <div id="content">
-                    <!-- Contenu spécifique à chaque utilisateur -->
+                    <!-- Contenu spécifique -->
                 </div>
-                <div class="create-group-container" id="createGroupContainer">
+                <div class="create-group-container" id="createGroupContainer" style="display: none;">
                     <h2>Créer un Nouveau Groupe</h2>
                     <form id="createGroupForm">
                         <div class="input-group">
@@ -48,6 +48,10 @@
                             <label for="pollTitle">Titre du Sondage</label>
                             <input type="text" id="pollTitle" name="pollTitle" required>
                         </div>
+                        <div class="input-group checkbox-group">
+                        <label for="anonymous">Sondage Anonyme</label>
+                        <input type="checkbox" id="anonymous" name="anonymous">
+                        </div>
                         <div class="input-group">
                             <label for="question-type">Type de Question</label>
                             <select id="question-type" name="question-type">
@@ -57,7 +61,7 @@
                         </div>
                         <div class="input-group">
                             <label for="question-text">Texte de la Question</label>
-                            <input type="text" id="question-text" name="question-text" required>
+                            <input type="text" id="question-text" name="question-text" >
                         </div>
                         <div class="input-group" id="options-container">
                             <label for="options">Options (séparées par des sauts de ligne)</label>
@@ -76,6 +80,8 @@
     </footer>
     <script type="text/javascript" src="./JS/home.js"></script>
     <script type="text/javascript" src="./JS/group.js"></script>
-    <script type="text/javascript" src="./JS/poll.js"></script> <!-- Assurez-vous que ce script est inclus -->
+    <script type="text/javascript" src="./JS/poll.js"></script>
+    <script type="text/javascript" src="./JS/disponible_polls.js"></script>
+    <script type="text/javascript" src="./JS/past_polls.js"></script>
 </body>
 </html>

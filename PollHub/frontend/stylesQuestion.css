@@ -94,7 +94,6 @@ button {
     animation: bounceIn 2s ease;
 }
 
-
 button:hover {
     background: linear-gradient(135deg, #d1f727, #77f61d); /* Inverser les couleurs pour l'effet de survol */
     transform: scale(1.05);
@@ -141,3 +140,4 @@ footer {
         transform: translateY(-15px);
     }
 }
+

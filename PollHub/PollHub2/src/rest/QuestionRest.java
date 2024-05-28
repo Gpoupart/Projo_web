@@ -30,10 +30,8 @@ public class QuestionRest {
 
     @POST
     @Path("/create")
-    public Response createQuestion(String json) {
-        System.out.println("Received create question request with payload: " + json);
-        try (JsonReader reader = Json.createReader(new StringReader(json))) {
-            JsonObject jsonObject = reader.readObject();
+    public Response createQuestion(JsonObject jsonObject) {
+        System.out.println("Received create question request ");
             String questionText = jsonObject.getString("question");
             String questionType = jsonObject.getString("questionType");
             int nbRep = jsonObject.getInt("nb_rep");
@@ -70,14 +68,8 @@ public class QuestionRest {
                 .build();
             
             return Response.ok(response).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JsonObject response = Json.createObjectBuilder()
-                .add("message", "Erreur lors de la création de la question")
-                .add("success", false)
-                .build();
-            return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
-        }
+        
+        
     }
 
     @GET

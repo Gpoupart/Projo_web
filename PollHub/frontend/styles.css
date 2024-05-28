@@ -317,3 +317,14 @@ select, textarea, input, button {
     color: grey;
     opacity: 0.6; 
 }
+
+/* Styles pour la case à cocher anonyme */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    transform: scale(2); 
+    margin-left: 6px; 
+}

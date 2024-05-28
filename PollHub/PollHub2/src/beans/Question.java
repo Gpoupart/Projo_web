@@ -59,6 +59,10 @@ public class Question {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public void setSondage(Sondage sondage2) {
+		this.sondage = sondage2;
+		
+	}
 	
 
    

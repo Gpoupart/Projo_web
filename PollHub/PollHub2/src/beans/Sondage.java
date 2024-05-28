@@ -24,7 +24,9 @@ public class Sondage {
   @ManyToMany
   private List<Groupe> groupes;
 
-  private String categorie;
+  private boolean categorie;
+  
+  private String nom;
 
   // pour simplifier
   @OneToMany(mappedBy="sondage", fetch= FetchType.EAGER)
@@ -66,12 +68,20 @@ public class Sondage {
     return questions;
   }
 
-public String getCategorie() {
+public boolean getCategorie() {
 	return categorie;
 }
 
-public void setCategorie(String categorie) {
+public void setCategorie(boolean categorie) {
 	this.categorie = categorie;
+}
+
+public String getNom() {
+	return nom;
+}
+
+public void setNom(String nom) {
+	this.nom = nom;
 }
 
 }
