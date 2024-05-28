@@ -58,13 +58,7 @@ public class Facade {
 		em.persist(groupe);
 	}
 
-    public void creerGroupe(String nom, List<String> emails) {
-        //List<Etudiant> etudiants = new ArrayList<>();
-        for (String email : emails) {
-            Etudiant etudiant = trouverEtudiantParEmail(email);
-            ajoutPersonneGroupe(etudiant,nom);
-        }
-    }
+
 	
 	public void creerSondage(List<Question> questions, List<Groupe> groupes) {
 		Sondage sondage = new Sondage(groupes,questions);
@@ -94,7 +88,7 @@ public class Facade {
 	    }
 
 	
-	public void ajoutPersonneGroupe(Etudiant etu, String groupName) {
+	/*public void ajoutPersonneGroupe(Etudiant etu, String groupName) {
 		Groupe groupe = null;
         try {
             groupe = em.createQuery("SELECT g FROM Groupe g WHERE g.nom = :groupName", Groupe.class)
@@ -108,7 +102,27 @@ public class Facade {
         etu.getGroupes().add(groupe);
         em.persist(groupe);
         em.persist(etu);
-	}
+	}*/
+	 public void ajoutPersonneGroupe(Etudiant etu, String groupName) {
+		    Groupe groupe = null;
+		    try {
+		        groupe = em.createQuery("SELECT g FROM Groupe g WHERE g.nom = :groupName", Groupe.class)
+		                .setParameter("groupName", groupName)
+		                .getSingleResult();
+		    } catch (NoResultException e) {
+		        groupe = new Groupe(groupName);
+		        em.persist(groupe);
+		    }
+		    // Initialize groupes collection
+		    etu = em.find(Etudiant.class, etu.getId());
+		    if (etu != null) {
+		        etu.getGroupes().size(); // Initialize the collection
+		        groupe.addEtudiant(etu);
+		        etu.getGroupes().add(groupe);
+		        em.persist(groupe);
+		        em.persist(etu);
+		    }
+		}
 	
 
 	public List<Groupe> getGroups(){

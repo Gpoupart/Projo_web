@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class Etudiant {
     private String major;
     private String speciality;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Groupe> groupes = new ArrayList<Groupe>();
     
     public Etudiant() {
@@ -94,6 +95,10 @@ public class Etudiant {
 
 	public List<Groupe> getGroupes() {
 		return this.groupes;
+	}
+
+	public Object getId() {
+		return this.id;
 	}
 	
 	
