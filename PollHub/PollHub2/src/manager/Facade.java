@@ -1,6 +1,5 @@
 package manager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -112,6 +111,10 @@ public class Facade {
 	}
 	
 
+	public List<Groupe> getGroups(){
+		return em.createQuery("SELECT g FROM Group g", Groupe.class).getResultList();
+	}
+	
 	/*public void initGroupe() {
 		//groupe de base SN
 		Groupe sn_1A = new Groupe("sn_1A");
